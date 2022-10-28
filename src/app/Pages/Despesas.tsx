@@ -5,72 +5,19 @@ import {
 	Select,
 	SelectChangeEvent
 } from "@mui/material";
+
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import TabelaMUI from "../Components/TabelaMUI";
+import { MONTHS } from "../helpers/months";
 import { getDespesas, IDespesas } from "../services/despesasAPI";
-
-const MONTHS = [
-	{
-		month: "Janeiro",
-		indice: "01"
-	},
-	{
-		month: "Fevereiro",
-		indice: "02"
-	},
-	{
-		month: "Março",
-		indice: "03"
-	},
-	{
-		month: "Abril",
-		indice: "04"
-	},
-	{
-		month: "Maio",
-		indice: "05"
-	},
-	{
-		month: "Junho",
-		indice: "06"
-	},
-	{
-		month: "Julho",
-		indice: "07"
-	},
-	{
-		month: "Agosto",
-		indice: "08"
-	},
-	{
-		month: "Setembro",
-		indice: "09"
-	},
-	{
-		month: "Outubro",
-		indice: "10"
-	},
-	{
-		month: "Novembro",
-		indice: "11"
-	},
-	{
-		month: "Dezembro",
-		indice: "12"
-	}
-];
-
-export function getDateValue(date:string):string {
-	return date;
-}
 
 export default function Despesas() {
 	const [year, setYear] = useState<string>("");
 	const [month, setMonth] = useState<string>("");
 	const [date, setDate] = useState<string>("");
-	const [despesas, setDespesas] = useState<Array<IDespesas>> ([])
-	let history = useHistory()
+	const [despesas, setDespesas] = useState<Array<IDespesas>>([]);
+	let history = useHistory();
 
 	function handleYearChange(event: SelectChangeEvent) {
 		setYear(event.target.value as string);
@@ -84,21 +31,18 @@ export default function Despesas() {
 		const formatDate = `${year}-${month}`;
 		if (formatDate.length > 5) {
 			setDate(formatDate);
-			history.push(`/despesas/${formatDate}`)
+			history.push(`/despesas/${formatDate}`);
 		}
 	}, [year, month, history]);
 
 	useEffect(() => {
 		async function fetchDespesas() {
-			const despesas:IDespesas[] = await getDespesas(date)
-			setDespesas(despesas)
+			const despesas: IDespesas[] = await getDespesas(date);
+			setDespesas(despesas);
 		}
 
-		fetchDespesas()
-
-	},[date])
-
-	getDateValue(date)
+		fetchDespesas();
+	}, [date]);
 
 	return (
 		<div>
@@ -143,7 +87,7 @@ export default function Despesas() {
 				</Select>
 			</FormControl>
 
-			<TabelaMUI despesas={despesas}/>
+			<TabelaMUI despesas={despesas} />
 		</div>
 	);
 }

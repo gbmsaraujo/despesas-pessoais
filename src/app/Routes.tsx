@@ -12,7 +12,7 @@ export default function Routes() {
 	return (
 		<Router>
 			<Switch>
-				<Route path='/'>
+				<Route path='/despesas'>
 					<Despesas></Despesas>
 				</Route>
 				<Redirect to={{pathname:'/despesas'}} />
